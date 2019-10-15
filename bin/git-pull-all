@@ -1,0 +1,37 @@
+#!/bin/bash -eu
+
+# run git pull all repos in ~/Documents/github/githubuid
+# setup: cd bin/; ln -s git-pull-all git-pull-githubuid
+# https://stackoverflow.com/questions/3258243/check-if-pull-needed-in-git
+
+THIS_FILE=${0##*/}
+GITHUB_UID=${THIS_FILE/git-pull-/}
+GITHUB_USER_DIR=~/Documents/github/$GITHUB_UID
+
+echo "git pull all in $GITHUB_USER_DIR"
+cd $GITHUB_USER_DIR
+
+UPSTREAM='@{u}'
+
+for x in *;
+do
+    cd $x
+    echo \*\* ${x} [$(git rev-parse --abbrev-ref HEAD)]
+    git fetch -p
+    LOCAL=$(git rev-parse @)
+    REMOTE=$(git rev-parse "$UPSTREAM")
+    BASE=$(git merge-base @ "$UPSTREAM")
+
+    if [ $LOCAL = $REMOTE ]; then
+        echo "  Up-to-date"
+    elif [ $LOCAL = $BASE ]; then
+        echo "  Need to pull"
+        git pull
+    elif [ $REMOTE = $BASE ]; then
+        echo "  Need to push"
+    else
+        echo "  Diverged"
+    fi
+
+    cd ..
+done

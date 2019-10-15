@@ -1,0 +1,18 @@
+#!/bin/bash -eu
+
+# run git grep all repos in ~/Documents/github/githubuid
+# setup: cd bin/; ln -s git-grep-all git-grep-githubuid
+
+THIS_FILE=${0##*/}
+GITHUB_UID=${THIS_FILE/git-grep-/}
+GITHUB_USER_DIR=~/Documents/github/$GITHUB_UID
+
+echo "git grep all in $GITHUB_USER_DIR"
+cd $GITHUB_USER_DIR
+
+for x in *;
+do
+    echo [${x}]
+    cd $x && git grep $*
+    cd ..
+done

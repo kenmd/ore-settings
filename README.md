@@ -29,8 +29,11 @@ git clone https://github.com/kenmd/ore-settings.git
 cd $HOME
 
 ln -s ~/Documents/github/kenmd/ore-settings/.vimrc
-ln -s ~/Documents/github/kenmd/ore-settings/.bashrc
-ln -s ~/Documents/github/kenmd/ore-settings/.bash_profile
+
+# Use zsh as the default shell on your Mac
+# https://support.apple.com/en-us/HT208050
+ln -s ~/Documents/github/kenmd/ore-settings/.zshrc
+ln -s ~/Documents/github/kenmd/ore-settings/.zprofile
 
 ln -s ~/Documents/github/kenmd/ore-settings/bin
 ```

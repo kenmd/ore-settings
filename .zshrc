@@ -32,6 +32,11 @@ function cd {
     fi
 }
 
+# complete:13: command not found: compdef
+# https://apple.stackexchange.com/questions/296477
+autoload -Uz compinit
+compinit
+
 fpath=(/usr/local/share/zsh-completions $fpath)
 fpath=(/usr/local/share/zsh/site-functions $fpath)
 

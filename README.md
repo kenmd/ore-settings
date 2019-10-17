@@ -41,15 +41,23 @@ ln -s ~/Documents/github/kenmd/ore-settings/bin
 
 ## How to move brew packages
 
-```bash
-# create/update Brewfile
-brew bundle dump
+* 必要なら `adoptopenjdk` の version を修正 (デフォルトは最新版)
+  - https://github.com/AdoptOpenJDK/homebrew-openjdk
+* fail 時は System Preference > Security & Privacy > General
+  - Allow apps downloaded from で adoptopenjdk の実行を許可
+* `java -version` で動作確認して、install を再実行
 
+```bash
 # show installs/upgrades
-brew bundle check
+brew bundle check --verbose
 
 # install all packages
-brew bundle
+brew bundle install --verbose
+
+# (以下、既にインストール済みのものがある場合)
+
+# Brewfile を再作成して差分を確認
+brew bundle dump
 
 # uninstall packages not in Brewfile
 brew bundle cleanup
@@ -58,16 +66,24 @@ brew bundle cleanup
 
 ## Initial setup commands
 
-* 必要なもののみ選択してコピペ実行
+* 初期設定コマンドの例 (必要なもののみ選択してコピペ実行)
+* `brew info xxx` により、インストール後にすべき設定を確認できる
+  - (例) `brew info git` `brew info zsh-completion`
 
 ```bash
 git config --global fetch.prune true
 git config --global user.name "Foo Bar"
 git config --global user.email "foo.bar@example.com"
 
+# initialize zcompdump
+rm -f ~/.zcompdump; compinit
+
 pyenv install --list | grep 3.7
 pyenv install 3.7.4
 pyenv global 3.7.4
+
+pyenv install --list | grep 2.7
+pyenv install 2.7.16
 
 pip list --outdated
 pip install --upgrade pip setuptools

@@ -1,1 +1,1 @@
-[ -f $HOME/.bashrc ] && . $HOME/.bashrc
+[ -f $HOME/.zshrc ] && . $HOME/.zshrc

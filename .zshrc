@@ -32,12 +32,11 @@ function cd {
     fi
 }
 
-# required by brew install bash-completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh/site-functions $fpath)
 
 # https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 source /usr/local/etc/bash_completion.d/git-prompt.sh
-source /usr/local/etc/bash_completion.d/git-completion.bash
 
 source /usr/local/etc/bash_completion.d/tig-completion.bash
 
@@ -49,7 +48,7 @@ if type __git_ps1 > /dev/null 2>&1 ; then
   GIT_PS1_SHOWUNTRACKEDFILES=true
   GIT_PS1_SHOWUPSTREAM="auto"
   GIT_PS1_SHOWCOLORHINTS=true
-  export PS1='\[\033[00m\]\[\033[36m\]\h\[\033[00m\]:\W\[\033[32m\]$(__git_ps1 [%s])\[\033[00m\]\$ '
+  precmd () { __git_ps1 "%m" ":%~$ " "|%s" }
 fi
 
 # pyenv
@@ -71,11 +70,11 @@ eval "$(nodenv init -)"
 export PATH=./node_modules/.bin:$PATH
 
 # force use Python 2.7
-export CLOUDSDK_PYTHON=~/.pyenv/versions/2.7.15/bin/python
+export CLOUDSDK_PYTHON=~/.pyenv/versions/2.7.16/bin/python
 
 # brew cask install google-cloud-sdk
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 # mssql-cli Disable telemetry collection
 # export MSSQL_CLI_TELEMETRY_OPTOUT=True
